@@ -2,8 +2,14 @@
 const express = require('express');
 const app = express();
 
+const wikiRouter = require('./routes/wiki');
+const userRouter = require('./routes/users');
+
 const {db, Page, User} = require('./models');
 
+
+app.use(express.urlencoded({extended: false}));
+app.use('/wiki', wikiRouter);
 
 //varifying db connection is working
 db.authenticate().then(() => {
@@ -11,8 +17,6 @@ db.authenticate().then(() => {
 });
 
 
-
-app.use(express.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 
@@ -20,7 +24,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
 
-    res.send('<h1> main page</h1>');
+    res.redirect('/wiki');
 })
 
 
